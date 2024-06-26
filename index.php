@@ -1,13 +1,12 @@
 <?php
 /**
- * fuwari
+ * Fuwari
  *
  * @package fuwari
- * @author fuwari
- * @version 1.2
- * @link http://typecho.org
+ * @author 老孙移植
+ * @version 1.0
+ * @link http://imsun.org
  */
-
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 ?>
 <!DOCTYPE html>
