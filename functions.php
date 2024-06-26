@@ -21,6 +21,12 @@ function themeConfig($form)
     $form->addInput($githuburl);
     $twitterurl = new Typecho_Widget_Helper_Form_Element_Text('twitterurl', NULL, NULL, _t('twitter'), _t('会在个人信息显示'));
     $form->addInput($twitterurl);
+    $twikoo = new Typecho_Widget_Helper_Form_Element_Textarea('twikoo', NULL, NULL, _t('引用第三方评论'), _t('不填写则不显示'));
+    $form->addInput($twikoo);
+    $addhead = new Typecho_Widget_Helper_Form_Element_Textarea('addhead', NULL, NULL, _t('自定义CSS'), _t('CSS'));
+    $form->addInput($addhead);
+    $tongji = new Typecho_Widget_Helper_Form_Element_Textarea('tongji', NULL, NULL, _t('统计代码'), _t('支持HTML'));
+    $form->addInput($tongji);
 }
 // 获取文章第一张图片
 function img_postthumb($cid) {

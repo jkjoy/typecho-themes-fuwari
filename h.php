@@ -12,8 +12,7 @@
     <meta content="Astro v4.11.0" name=generator>
     <link href="<?php $this->options->icourl() ?>" rel=icon media="(prefers-color-scheme: light)" sizes=32x32>
     <script>!function () { switch (localStorage.getItem("theme") || "auto") { case "light": document.documentElement.classList.remove("dark"); break; case "dark": document.documentElement.classList.add("dark"); break; case "auto": window.matchMedia("(prefers-color-scheme: dark)").matches ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark") } }()</script>
-    <link href=https://cdn.staticfile.org/KaTeX/0.16.9/katex.min.css rel=stylesheet crossorigin=anonymous
-        integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV>
+    <link href=https://cdn.staticfile.org/KaTeX/0.16.9/katex.min.css rel=stylesheet crossorigin=anonymous integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV>
     <link href="<?php $this->options->siteUrl(); ?>/feed" rel=alternate title="<?php $this->options->title(); ?>" type=application/rss+xml>
     <link href="<?php $this->options->themeUrl('/_astro/hoisted.aW6J7aTb.css'); ?>" rel=stylesheet>
     <link href="<?php $this->options->themeUrl('/_astro/_page_.C2WTn4nY.css'); ?>" rel=stylesheet>
@@ -21,6 +20,7 @@
     <link href="<?php $this->options->themeUrl('/_astro/about.DjJRFMus.css'); ?>" rel=stylesheet>
     <link href="<?php $this->options->themeUrl('/_astro/_category_.BWAG4XaK.css'); ?>" rel=stylesheet>
     <style>
+        <?php $this->options->addhead() ?>
         #post-container :first-child {
             animation-delay: calc(var(--content-delay) + 0ms)
         }
@@ -104,6 +104,6 @@
             background: #fff9
         }
     </style>
-  <script src="<?php $this->options->themeUrl('/_astro/hoisted.Sb1r8TRi.js'); ?>" type=module></script>    
+    <script src="<?php $this->options->themeUrl('/_astro/hoisted.Sb1r8TRi.js'); ?>" type=module></script>    
     <script src="<?php $this->options->themeUrl('/_astro/page.3zT6KwRv.js'); ?>" type=module></script>    
     <?php $this->header(); ?> 

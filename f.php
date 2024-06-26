@@ -5,6 +5,7 @@
                             target=_blank>Fuwari</a> . Transplant by
                             <a href="https://imsun.org" class="text-[var(--primary)] font-medium link" target="_blank"> Sun </a> 
                     </div>
+                    <?php $this->options->tongji() ?>
                 </div>
 </div>
             <div class="hidden lg:block back-to-top-wrapper" data-astro-cid-eymb5ayk>
