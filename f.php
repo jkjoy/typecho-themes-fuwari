@@ -1,9 +1,15 @@
 <div class="col-span-2 onload-animation grid-rows-3 mt-4" id=footer>
                 <div class="flex items-center card-base max-w-[var(--page-width)] mx-auto min-h-[4.5rem] px-6 rounded-b-none">
-                    <div class="transition text-sm text-50">© 2024 <?php $this->options->title(); ?>. All Rights Reserved.<br>Powered by Typecho . Theme by<a
-                            href=https://github.com/saicaca/fuwari class="text-[var(--primary)] font-medium link"
-                            target=_blank>Fuwari</a> . Transplant by
-                            <a href="https://imsun.org" class="text-[var(--primary)] font-medium link" target="_blank"> Sun </a> 
+                    <div class="transition text-sm text-50">
+                        © 2024 <?php $this->options->title(); ?>. All Rights Reserved. 
+            <?php //添加加载时间控制
+            if ($this->options->showtime): ?>
+            &nbsp;页面加载耗时<?php echo timer_stop();?> 
+            <?php endif; ?>    
+                        <br>
+                         Powered by Typecho . Theme by
+                        <a href=https://github.com/saicaca/fuwari class="text-[var(--primary)] font-medium link" target=_blank> Fuwari </a> . Transplant by
+                        <a href="https://imsun.org" class="text-[var(--primary)] font-medium link" target="_blank"> Sun </a> 
                     </div>
                     <?php $this->options->tongji() ?>
                 </div>

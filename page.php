@@ -24,44 +24,30 @@
                     <div class="flex w-full mb-4 overflow-hidden relative rounded-[var(--radius-large)]">
                         <div class="relative w-full card-base md:px-9 pb-4 pt-6 px-6 z-10" id=post-container>
                             <div class="transition flex dark:text-white/30 flex-row gap-5 mb-3 onload-animation text-black/30">
-                            
-                             
                             </div>
                             <div class="relative onload-animation">
                                 <div class="transition font-bold before:absolute before:bg-[var(--primary)] before:rounded-md before:h-5 before:left-[-1.125rem] before:top-[0.75rem] block dark:text-white/90 mb-3 md:before:w-1 md:text-[2.5rem]/[2.75rem] text-3xl text-black/90 w-full"
                                     data-pagefind-body data-pagefind-meta=title data-pagefind-weight=10><?php $this->title() ?></div>
                             </div>
                             <div class=onload-animation>
-                                <div class="flex items-center gap-4 dark:text-neutral-400 flex-wrap gap-x-4 gap-y-2 mb-5 text-neutral-500"
-                                    data-astro-cid-qtyrxm4s>
-                                    <div class="flex items-center" data-astro-cid-qtyrxm4s>
-                                         
-                                           
-                                    </div>
-                                    <div class="flex items-center" data-astro-cid-qtyrxm4s>
-                                        
-                                        
-                                    </div>
-                                    <div class="flex items-center" data-astro-cid-qtyrxm4s>
-                                         
-                                       
-                                    </div>
-                                </div>
                                 <div class="mb-5 border-[var(--line-divider)] border-b-[1px] border-dashed"></div>
                             </div>
                             <div class="onload-animation mb-6 custom-md dark:prose-invert markdown-content max-w-none prose prose-base"
                                 data-pagefind-body>
                                 <?php $this->content(); ?>
                             </div>
-                            
                         </div>
-                    </div>
-                           
+                    </div>        
                 </main>
+                <?php // 第三方评论or自带评论 
+                if($this->options->twikoo): ?>
+                <?php $this->options->twikoo() ?>
+                <?php else: ?>
                 <?php $this->need('c.php'); ?>
+                <?php endif; ?>
             </div>
             <?php $this->need('f.php'); ?>
-  </div>
+        </div>
     </div>
 </body>
 

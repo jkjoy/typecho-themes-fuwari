@@ -9,11 +9,11 @@ function themeInit($archive)
 <?php
 function themeConfig($form)
 {
-    $logoUrl = new Typecho_Widget_Helper_Form_Element_Text('logoUrl', NULL, NULL, _t('站点 LOGO 地址'));
-    $form->addInput($logoUrl);
+    $cnavatar = new Typecho_Widget_Helper_Form_Element_Text('cnavatar', NULL, 'https://cravatar.cn/avatar/', _t('Gravatar镜像'), _t('默认https://cravatar.cn/avatar/,建议保持默认'));
+    $form->addInput($cnavatar);
     $icoUrl = new Typecho_Widget_Helper_Form_Element_Text('icoUrl', NULL, NULL, _t('站点 Favicon 地址'));
     $form->addInput($icoUrl);
-    $avaUrl = new Typecho_Widget_Helper_Form_Element_Text('avaUrl', NULL, NULL, _t('头像链接地址'));
+    $avaUrl = new Typecho_Widget_Helper_Form_Element_Text('avaUrl', NULL, NULL, _t('关于页面地址'), _t('点击侧边栏头像链接的地址'));
     $form->addInput($avaUrl);
     $telegramurl = new Typecho_Widget_Helper_Form_Element_Text('steamurl', NULL, NULL, _t('steam'), _t('会在个人信息显示'));
     $form->addInput($telegramurl);
@@ -27,6 +27,14 @@ function themeConfig($form)
     $form->addInput($addhead);
     $tongji = new Typecho_Widget_Helper_Form_Element_Textarea('tongji', NULL, NULL, _t('统计代码'), _t('支持HTML'));
     $form->addInput($tongji);
+    $showtime = new Typecho_Widget_Helper_Form_Element_Radio('showtime',
+    array('0'=> _t('否'), '1'=> _t('是')),
+    '0', _t('是否显示页面加载时间'), _t('选择“是”将在页脚显示加载时间。'));
+    $form->addInput($showtime);
+    $qqboturl = new Typecho_Widget_Helper_Form_Element_Text('qqboturl', NULL, 'https://bot.asbid.cn', _t('QQ机器人API,保持默认则需添加 2280858259 为好友'), _t('基于cqhttp,有评论时QQ通知'));
+    $form->addInput($qqboturl);
+    $qqnum = new Typecho_Widget_Helper_Form_Element_Text('qqnum', NULL, '80116747', _t('QQ号码'), _t('用于接收QQ通知的号码'));
+    $form->addInput($qqnum);
 }
 // 获取文章第一张图片
 function img_postthumb($cid) {
@@ -76,3 +84,87 @@ function getPermalinkFromCoid($coid) {
 	if (empty($row)) return '';
 	return '<a href="#comment-'.$coid.'" style="text-decoration: none;">@'.$row['author'].'</a>';
 }
+// 获取Typecho的选项
+$options = Typecho_Widget::widget('Widget_Options');
+// 检查cnavatar是否已设置，如果未设置或为空，则使用默认的Gravatar前缀
+$gravatarPrefix = empty($options->cnavatar) ? 'https://cravatar.cn/avatar/' : $options->cnavatar;
+// 定义全局常量__TYPECHO_GRAVATAR_PREFIX__，用于存储Gravatar前缀
+define('__TYPECHO_GRAVATAR_PREFIX__', $gravatarPrefix);
+/**
+* 页面加载时间
+*/
+function timer_start() {
+    global $timestart;
+    $mtime = explode( ' ', microtime() );
+    $timestart = $mtime[1] + $mtime[0];
+    return true;
+    }
+    timer_start();
+    function timer_stop( $display = 0, $precision = 3 ) {
+    global $timestart, $timeend;
+    $mtime = explode( ' ', microtime() );
+    $timeend = $mtime[1] + $mtime[0];
+    $timetotal = number_format( $timeend - $timestart, $precision );
+    $r = $timetotal < 1 ? $timetotal * 1000 . " ms" : $timetotal . " s";
+    if ( $display ) {
+    echo $r;
+    }
+    return $r;
+    }
+// 评论提交通知函数
+function notifyQQBot($comment) {
+    $options = Helper::options();
+    // 检查评论是否已经审核通过
+    if ($comment->status != "approved") {
+        error_log('Comment is not approved.');
+        return;
+    } 
+    // 获取配置中的QQ机器人API地址
+    $cq_url = $options->qqboturl;
+    // 检查API地址是否为空
+    if (empty($cq_url)) {
+        error_log('QQ Bot URL is empty. Using default URL.');
+        $cq_url = 'https://bot.asbid.cn';
+    }
+    // 获取QQ号码
+    $qqnum = $options->qqnum;
+    // 检查QQ号码是否为空
+    if (empty($qqnum)) {
+        error_log('QQ number is empty.');
+        return;
+    }
+    // 如果是管理员自己发的评论则不发送通知
+    if ($comment->authorId === $comment->ownerId) {
+        error_log('This comment is by the post owner.');
+        return;
+    }
+    // 构建消息内容
+    $msg = '「' . $comment->author . '」在文章《' . $comment->title . '》中发表了评论！';
+    $msg .= "\n评论内容:\n{$comment->text}\n永久链接地址：{$comment->permalink}";
+    // 准备发送消息的数据
+    $_message_data_ = [
+        'user_id' => (int) trim($qqnum),
+        'message' => str_replace(["\r\n", "\r", "\n"], "\r\n", htmlspecialchars_decode(strip_tags($msg)))
+    ];
+    // 输出调试信息
+    error_log('Sending message to QQ Bot: ' . print_r($_message_data_, true));
+    // 初始化Curl请求
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => "{$cq_url}/send_msg?" . http_build_query($_message_data_, '', '&'),
+        CURLOPT_CONNECTTIMEOUT => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => 0
+    ]);
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        error_log('Curl error: ' . curl_error($ch));
+    } else {
+        error_log('Response: ' . $response);
+    }
+    curl_close($ch);
+}
+Typecho_Plugin::factory('Widget_Feedback')->finishComment = 'notifyQQBot';

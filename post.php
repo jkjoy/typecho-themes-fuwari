@@ -189,8 +189,6 @@
                                     class="transition whitespace-nowrap dark:text-white/75 text-black/75 max-w-[calc(100%_-_3rem)] overflow-ellipsis overflow-hidden">
                                     <?php $this->thePrev('<p class="w-full active:scale-95 font-bold overflow-hidden">%s</p>', '没有了'); ?></div>
                             </div>
-                       
-                        
                             <div
                                 class="flex items-center w-full btn-card gap-4 h-[3.75rem] max-w-full px-4 rounded-2xl justify-end">
                                 <div
@@ -211,7 +209,6 @@
                         </div>
                            <?php endif; ?>
                 </main>
-                
                 <?php // 第三方评论or自带评论 
                 if($this->options->twikoo): ?>
                 <?php $this->options->twikoo() ?>
