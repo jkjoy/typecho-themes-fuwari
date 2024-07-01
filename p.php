@@ -5,7 +5,7 @@
                 <div class="flex w-full card-base flex-col-reverse md:flex-col onload-animation overflow-hidden relative rounded-[var(--radius-large)]"   style="animation-delay:calc(var(--content-delay) + 0ms);--coverWidth:28%">
                             <div class="w-full relative md:pl-9 md:pr-2 md:pt-7 pb-6 pl-6 pr-6 pt-6 md:w-[calc(100%_-_52px_-_12px)]" style="--coverWidth:28%" data-astro-cid-iyiqi2so>
                                 <a href="<?php $this->permalink() ?>" class="transition dark:hover:text-[var(--primary)] hover:text-[var(--primary)] active:text-[var(--title-active)] before:absolute before:bg-[var(--primary)] before:h-5 before:hidden before:left-[18px] before:rounded-md before:top-[35px] before:w-1 block dark:active:text-[var(--title-active)] font-bold mb-3 md:before:block text-3xl text-90 w-full" data-astro-cid-iyiqi2so style="--coverWidth:28%">
-                                    <?php $this->sticky();$this->title() ?>
+                                    <?php $this->sticky();$this->title(20) ?>
                                     <svg
                                         data-icon=material-symbols:chevron-right-rounded height=28 viewBox="0 0 24 24"
                                         width=28 class="text-[var(--primary)] -translate-y-[0.15rem] inline md:hidden">
