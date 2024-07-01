@@ -2,8 +2,8 @@
 /**
  * Fuwari
  *
- * @package fuwari
- * @author 老孙移植
+ * @package Fuwari
+ * @author Sun
  * @version 1.0
  * @link http://imsun.org
  */
